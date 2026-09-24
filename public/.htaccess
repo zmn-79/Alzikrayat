@@ -1,0 +1,17 @@
+# public/.htaccess
+#
+# Rewrites every incoming request that does not correspond to a real file
+# or directory (e.g. uploaded images, static assets) to the single Front
+# Controller (index.php), which then dispatches the request through the
+# manual Router (Project 1 Specification, Section 7.1).
+
+RewriteEngine On
+
+# Serve existing files and directories directly (e.g. images/uploads/*,
+# CSS/JS assets) without routing them through index.php.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Everything else is handled by the front controller.
+RewriteRule ^ index.php [L]

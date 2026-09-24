@@ -1,0 +1,133 @@
+/**
+ * public/css/styles.css
+ *
+ * Custom styles layered on top of Bootstrap. Covers two spec requirements
+ * that Bootstrap's utility classes alone don't fully provide:
+ *   1. The custom gallery display styles (Section 4.2: 3-column,
+ *      4-column, list card, full-width slider).
+ *   2. Additional responsive media-query adjustments for device
+ *      orientations (Section 8), beyond Bootstrap's own breakpoints.
+ */
+
+/* ---- Brand / logo ------------------------------------------------------ */
+.brand-logo {
+    height: 28px;
+    width: 28px;
+    margin-right: 8px;
+    vertical-align: text-bottom;
+}
+
+/* ---- Hero section (Home page) ----------------------------------------- */
+.hero-section {
+    background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+    color: #fff;
+    border-radius: 0.5rem;
+    padding: 3rem 2rem;
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-card .stat-number {
+    font-size: 2.25rem;
+    font-weight: 700;
+}
+
+/* ---- Gallery display styles (Section 4.2) ------------------------------
+   The gallery container's layout is switched entirely via a single
+   data-attribute (data-style) toggled by JavaScript in views/photos/index.php;
+   no page reload is required to switch between styles. */
+
+/* 3-column style (default) and 4-column style share the same underlying
+   Bootstrap row/col markup; the column count is changed via a class swap
+   handled in the view itself, so no extra CSS is required for those two. */
+
+/* List-card style: a single stacked column of wide, horizontal cards. */
+.gallery-list .gallery-item {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1rem;
+}
+
+.gallery-list .gallery-item img {
+    width: 220px;
+    height: 150px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Full-width slider style: a horizontally scrolling strip with snap
+   points, so each photo occupies most of the viewport width at a time. */
+.gallery-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+}
+
+.gallery-slider .gallery-item {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+}
+
+.gallery-slider .gallery-item img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+}
+
+/* ---- Responsive / orientation media queries (Section 8) ---------------- */
+
+/* Portrait phones and small tablets: force the slider style to show one
+   nearly full-width photo at a time. */
+@media (max-width: 767px) and (orientation: portrait) {
+    .gallery-slider .gallery-item {
+        flex: 0 0 92%;
+    }
+
+    .hero-section {
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+
+    .gallery-list .gallery-item {
+        flex-direction: column;
+    }
+
+    .gallery-list .gallery-item img {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+/* Landscape phones/tablets: shrink the hero and slider height so content
+   fits within the reduced vertical space. */
+@media (max-width: 991px) and (orientation: landscape) {
+    .hero-section {
+        padding: 1.5rem 2rem;
+    }
+
+    .gallery-slider .gallery-item img {
+        height: 220px;
+    }
+}
+
+/* Tablet portrait: keep the gallery grid readable without cramming four
+   columns into a narrower viewport. */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .gallery-grid-4 .col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+/* Desktop and large tablet landscape: allow the 4-column style to use its
+   full column count. */
+@media (min-width: 992px) {
+    .gallery-grid-4 .col {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}

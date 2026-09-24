@@ -1,0 +1,15 @@
+# public/images/uploads/.htaccess
+#
+# Defense-in-depth: even though PhotoController::store() only accepts
+# files verified as genuine images via getimagesize() and always writes
+# them under a server-generated name/extension, this rule ensures that
+# nothing in this directory can ever be executed as a PHP script if it
+# somehow ended up here (Project 1 Specification, Section 14: Security).
+
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>
+
+<FilesMatch "\.(php|phtml|php3|php4|php5|phps)$">
+    Require all denied
+</FilesMatch>
